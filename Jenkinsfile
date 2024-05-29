@@ -1,10 +1,6 @@
-import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
 
-@NonCPS
-def parseJson(jsonText) {
-    def jsonSlurper = new JsonSlurper()
-    return jsonSlurper.parseText(jsonText)
-}
+
 
 pipeline {
     agent any
@@ -15,7 +11,7 @@ pipeline {
                 script {
                     // Read JSON data from pipeline.json
                     def jsonText = readFile 'pipeline.json'
-                    def data = parseJson(jsonText)
+                    def data = new JsonSlurperClassic().parseText(jsonText)
 
                     // Call the sample.groovy script passing the JSON data
                     def result = load 'sample.groovy'
