@@ -16,7 +16,7 @@ pipeline {
 
                     // Call the sample.groovy script passing the JSON data
                     def result = load 'sample.groovy'
-                    result.greet(data.name)
+                    result.message()
                 }
             }
         }
