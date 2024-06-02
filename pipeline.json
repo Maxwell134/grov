@@ -1,3 +1,10 @@
 {
-    "name": "John Doe"
+    "environments": {
+        "non-prod": {
+            "name": "John Doe Non-Prod"
+        },
+        "prod": {
+            "name": "John Doe Prod"
+        }
+    }
 }
