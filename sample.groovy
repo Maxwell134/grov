@@ -6,3 +6,5 @@ def greet(name) {
 
 def message = greet("World")
 println(message)
+
+return this
