@@ -1,7 +1,6 @@
 {
    
-    "jenkinsCredentials": {
-        "username": "jenkins-username-id",
-        "password": "jenkins-password-id"
+   "jenkinsCredentials": {
+        "id": "jenkins-credential-id"
     }
 }
