@@ -29,28 +29,25 @@
 // }
 
 
-pipeline {
+ pipeline {
     agent any
-    
-    environment {
-        PIPELINE_JSON = 'pipeline.json'
-    }
-    
+
     stages {
         stage('Setup') {
             steps {
                 script {
-                    // Read JSON data from pipeline.json using JsonSlurper
-                    def jsonText = readFile(env.PIPELINE_JSON)
-                    def slurper = new JsonSlurper()
-                    def pipelineData = slurper.parseText(jsonText)
+                    // Load the external Groovy script
+                    def configScript = load 'sample.groovy'
                     
-                    // Call the sample.groovy script passing the environment-specific data
-                    def result = load 'sample.groovy'
-                    result.main(pipelineData)
+                    // Call the function from the external script
+                    def config = configScript.loadConfig()
+                    def environment = config.environment
+                    def version = config.version
+                    
+                    echo "Environment: ${environment}"
+                    echo "Version: ${version}"
                 }
             }
         }
     }
 }
-
