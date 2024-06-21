@@ -78,6 +78,17 @@ pipeline {
             steps {
                 script {
                     try {
+
+                        def groovyScriptPath = 'sample.groovy'
+                        def configScript = load groovyScriptPath
+                        def config = configScript.loadConfig()
+                        def environment = config.environment
+                        def version = config.version
+                        def dockerCredentialsId = config.dockerCredentialsId
+                        echo "Environment: ${environment}"
+                        echo "Version: ${version}"
+                        echo "Docker Credentials ID: ${dockerCredentialsId}"
+                        env.DOCKER_CREDENTIALS_ID = dockerCredentialsId
                         // Read the pipeline.json file
                         // def jsonFileContent = readFile 'pipeline.json'
                         // // Parse the JSON content
@@ -97,18 +108,7 @@ pipeline {
                         //     // Store the credential ID in the environment
                         //     env.DOCKER_CREDENTIALS_ID = dockerCredentialsId
 
-                                def groovyScriptPath = 'sample.groovy'
-                                def configScript = load groovyScriptPath
-                                def config = configScript.loadConfig()
-                                def environment = config.environment
-                                def version = config.version
-                                def dockerCredentialsId = config.dockerCredentialsId
-                                echo "Environment: ${environment}"
-                                echo "Version: ${version}"
-                                echo "Docker Credentials ID: ${dockerCredentialsId}"
-                                env.DOCKER_CREDENTIALS_ID = dockerCredentialsId
-                                                                      
-                        }
+                                
                     } catch (FileNotFoundException e) {
                         error "Pipeline configuration file not found: ${e.message}"
                     } catch (Exception e) {
