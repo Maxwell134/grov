@@ -108,8 +108,6 @@ pipeline {
                                 echo "Docker Credentials ID: ${dockerCredentialsId}"
                                 env.DOCKER_CREDENTIALS_ID = dockerCredentialsId
                                                                       
-                        } else {
-                            error "Required fields not found in: pipeline.json"
                         }
                     } catch (FileNotFoundException e) {
                         error "Pipeline configuration file not found: ${e.message}"
