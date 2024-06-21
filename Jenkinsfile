@@ -38,14 +38,11 @@
                 script {
                     // Load the external Groovy script
                     def configScript = load 'sample.groovy'
+                        result = configScript.loadConfig()
+                        println(result)
                     
                     // Call the function from the external script
-                    def config = configScript.loadConfig()
-                    def environment = config.environment
-                    def version = config.version
                     
-                    echo "Environment: ${environment}"
-                    echo "Version: ${version}"
                 }
             }
         }
