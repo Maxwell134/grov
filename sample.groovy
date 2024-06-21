@@ -1,14 +1,5 @@
 import groovy.json.JsonSlurper
 
-def message(data) {
-    def name = data.name ?: "World" // Default to "World" if name is not in the JSON
-    def greetMessage = greet(name)
-    println(greetMessage)
-}
-
-def greet(name) {
-    return "Hello, $name!"
-}
 
 // Function to read JSON content
 def readJsonContent(jsonContent) {
@@ -21,7 +12,7 @@ def getJenkinsCredentials(id) {
     def username = ''
     def password = ''
     
-    withCredentials([usernamePassword(credentialsId: id, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    withCredentials([usernamePassword(dockerhub-credentials: id, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         username = env.USERNAME
         password = env.PASSWORD
     }
@@ -43,7 +34,6 @@ def main(jsonContent) {
     def password = credentials.password
     
     // Call the message function
-    message(data.environments['non-prod'])
     
     // Docker login
     def dockerLoginCommand = "docker login -u ${username} -p ${password}"
