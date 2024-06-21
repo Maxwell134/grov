@@ -79,23 +79,35 @@ pipeline {
                 script {
                     try {
                         // Read the pipeline.json file
-                        def jsonFileContent = readFile 'pipeline.json'
-                        // Parse the JSON content
-                        def jsonContent = readJSON text: jsonFileContent
+                        // def jsonFileContent = readFile 'pipeline.json'
+                        // // Parse the JSON content
+                        // def jsonContent = readJSON text: jsonFileContent
                         
                         // Check if the necessary fields exist
-                        if (jsonContent.environment && jsonContent.version && jsonContent.dockerCredentialsId) {
-                            def environment = jsonContent.environment
-                            def version = jsonContent.version
-                            def dockerCredentialsId = jsonContent.dockerCredentialsId
+                        // if (jsonContent.environment && jsonContent.version && jsonContent.dockerCredentialsId) {
+                        //     def environment = jsonContent.environment
+                        //     def version = jsonContent.version
+                        //     def dockerCredentialsId = jsonContent.dockerCredentialsId
                             
-                            // Print the values
-                            echo "Environment: ${environment}"
-                            echo "Version: ${version}"
-                            echo "Docker Credentials ID: ${dockerCredentialsId}"
+                        //     // Print the values
+                        //     echo "Environment: ${environment}"
+                        //     echo "Version: ${version}"
+                        //     echo "Docker Credentials ID: ${dockerCredentialsId}"
                             
-                            // Store the credential ID in the environment
-                            env.DOCKER_CREDENTIALS_ID = dockerCredentialsId
+                        //     // Store the credential ID in the environment
+                        //     env.DOCKER_CREDENTIALS_ID = dockerCredentialsId
+
+                                def groovyScriptPath = 'sample.groovy'
+                                def configScript = load groovyScriptPath
+                                def config = configScript.loadConfig()
+                                def environment = config.environment
+                                def version = config.version
+                                def dockerCredentialsId = config.dockerCredentialsId
+                                echo "Environment: ${environment}"
+                                echo "Version: ${version}"
+                                echo "Docker Credentials ID: ${dockerCredentialsId}"
+                                env.DOCKER_CREDENTIALS_ID = dockerCredentialsId
+                                                                      
                         } else {
                             error "Required fields not found in: pipeline.json"
                         }
