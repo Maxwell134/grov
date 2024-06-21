@@ -1,6 +1,5 @@
 import groovy.json.JsonSlurper
 
-
 // Function to read JSON content
 def readJsonContent(jsonContent) {
     def jsonSlurper = new JsonSlurper()
@@ -13,8 +12,8 @@ def getJenkinsCredentials(id) {
     def password = ''
     
     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        username = env.USERNAME
-        password = env.PASSWORD
+        username = USERNAME
+        password = PASSWORD
     }
     
     return [username: username, password: password]
