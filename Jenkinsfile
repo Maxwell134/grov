@@ -5,31 +5,25 @@ pipeline {
         PIPELINE_JSON = 'pipeline.json'
     }
 
-    // stages {
-    //     stage('Setup') {
-    //         steps {
-    //             script {
-    //                 // Read JSON data from pipeline.json
-    //                 def jsonText = readFile env.PIPELINE_JSON
-    //                 env.pipelineData = jsonText
-    //             }
-    //         }
-    //     }
-        
-        stage('Build Non-Prod') {
-            
+    stages {
+        stage('Setup') {
             steps {
                 script {
-                    // def data = readJSON text: env.pipelineData
-
-                    // Extract the name for the target environment
-                      
-                    // Call the sample.groovy script passing the environment-specific data
+                    // Read JSON data from pipeline.json
+                    def jsonText = readFile env.PIPELINE_JSON
+                    env.PIPELINE_DATA = jsonText
+                }
+            }
+        }
+        
+        stage('Build Non-Prod') {
+            steps {
+                script {
+                    // Load and execute the sample.groovy script
                     def result = load 'sample.groovy'
                     result.main()
                 }
             }
         }
-        
     }
-
+}
