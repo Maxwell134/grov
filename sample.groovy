@@ -7,7 +7,6 @@ def main() {
     def password = 'jenkins-password-id'
     
     // Call the message function
-    message(data.environments['non-prod'])
     
     // Docker login
     def dockerLoginCommand = "docker login -u ${username} -p ${password}"
