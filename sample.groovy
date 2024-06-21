@@ -1,10 +1,22 @@
 def main() {
     // Read JSON file
-    def data = readJsonFile('pipeline.json')
+    
+    def jsonFile = readFile ('pipeline.json')
+    def jsonContent = readJSON text: jsonFile
+
+    // Extract the variable from JSON
+    def login_credentials = jenkinsCredentials.id
+
+    def getJenkinsCredentials(id) {
+    withCredentials([usernamePassword(credentialsId: id, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        return [username: env.USERNAME, password: env.PASSWORD]
+    }
+}
     
     // Get credentials
-    def username = 'jenkins-username-id'
-    def password = 'jenkins-password-id'
+    def credentials = getJenkinsCredential(login_credentials)
+    def username = credentials.username
+    def password = credentials.password
     
     // Call the message function
     
