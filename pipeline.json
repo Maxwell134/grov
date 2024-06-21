@@ -1,12 +1,4 @@
-
 {
-  "environments": {
-    "non-prod": {
-      "name": "John Doe Non-Prod"
-    },
-    "prod": {
-      "name": "John Doe Prod"
-    }
-  }
+    "environment": "production",
+    "version": "1.0.0"
 }
-
