@@ -1,21 +1,17 @@
-// import groovy.json.JsonSlurper
-
 def loadConfig() {
-    // def jsonSlurper = new JsonSlurper()
-    // def jsonFile = new File('pipeline.json')
-    def jsonFile = readFile 'pipeline.json'
-    def jsonContent = readJSON text: jsonFile
+    // Read the pipeline.json file
+    def jsonFileContent = readFile 'pipeline.json'
+    // Parse the JSON content
+    def jsonContent = readJSON text: jsonFileContent
     
-    if (jsonContent.exists()) {
-        def config = jsonSlurper.parse(jsonFile)
-        def environment = config.environment
-        def version = config.version
+    // Check if the necessary fields exist
+    if (jsonContent.environment && jsonContent.version) {
+        def environment = jsonContent.environment
+        def version = jsonContent.version
         
-        return [environment,
-                environment          
-            ]
+        return [environment: environment, version: version]
     } else {
-        throw new FileNotFoundException("File not found: pipeline.json")
+        throw new FileNotFoundException("Required fields not found in: pipeline.json")
     }
 }
 
