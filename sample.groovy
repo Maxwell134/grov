@@ -1,49 +1,24 @@
 import groovy.json.JsonSlurper
 
-// Function to read JSON content
-def readJsonContent(jsonContent) {
-    def jsonSlurper = new JsonSlurper()
-    return jsonSlurper.parseText(jsonContent)
-}
+class PipelineConfig {
+    def config
 
-// Function to get Jenkins credentials (username and password)
-def getJenkinsCredentials(id) {
-    def username = ''
-    def password = ''
-    
-    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        username = USERNAME
-        password = PASSWORD
+    PipelineConfig(String jsonFilePath) {
+        def jsonSlurper = new JsonSlurper()
+        def jsonFile = new File(jsonFilePath)
+        if (jsonFile.exists()) {
+            config = jsonSlurper.parse(jsonFile)
+        } else {
+            throw new FileNotFoundException("File not found: ${jsonFilePath}")
+        }
     }
-    
-    return [username: username, password: password]
-}
 
-// Main execution
-def main(jsonContent) {
-    // Parse JSON content
-    def data = readJsonContent(jsonContent)
-    
-    // Extract credential ID from JSON
-    def credentialId = data.jenkinsCredentials.id
-    
-    // Get credentials from Jenkins
-    def credentials = getJenkinsCredentials(credentialId)
-    def username = credentials.username
-    def password = credentials.password
-    
-    // Call the message function
-    
-    // Docker login
-    def dockerLoginCommand = "docker login -u ${username} -p ${password}"
-    println "Executing: ${dockerLoginCommand}"
-    def process = dockerLoginCommand.execute()
-    process.waitFor()
-    if (process.exitValue() != 0) {
-        println "Docker login failed: ${process.err.text}"
-    } else {
-        println "Docker login successful"
+    def getConfig() {
+        return config
     }
 }
 
-return this
+def loadConfig() {
+    def pipelineConfig = new PipelineConfig('pipeline.json')
+    return pipelineConfig.getConfig()
+}
