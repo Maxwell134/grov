@@ -17,45 +17,19 @@ pipeline {
         }
         
         stage('Build Non-Prod') {
-            environment {
-                TARGET_ENV = 'non-prod'
-            }
+            
             steps {
                 script {
                     def data = readJSON text: env.pipelineData
 
                     // Extract the name for the target environment
-                    def envData = data.environments[env.TARGET_ENV]
-                    if (!envData) {
-                        error "Environment '${env.TARGET_ENV}' not found in pipeline.json"
-                    }
-
+                      
                     // Call the sample.groovy script passing the environment-specific data
                     def result = load 'sample.groovy'
-                    result.message(envData)
+                    result.main()
                 }
             }
         }
-
-        stage('Build Prod') {
-            environment {
-                TARGET_ENV = 'prod'
-            }
-            steps {
-                script {
-                    def data = readJSON text: env.pipelineData
-
-                    // Extract the name for the target environment
-                    def envData = data.environments[env.TARGET_ENV]
-                    if (!envData) {
-                        error "Environment '${env.TARGET_ENV}' not found in pipeline.json"
-                    }
-
-                    // Call the sample.groovy script passing the environment-specific data
-                    def result = load 'sample.groovy'
-                    result.message(envData)
-                }
-            }
-        }
+        
     }
 }
