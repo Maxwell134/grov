@@ -1,12 +1,5 @@
 {
-    "environments": {
-        "non-prod ": {
-            "name": "John Doe Non-Prod"
-        },
-        "prod": {
-            "name": "John Doe Prod"
-        }
-    },
+   
     "jenkinsCredentials": {
         "username": "jenkins-username-id",
         "password": "jenkins-password-id"
