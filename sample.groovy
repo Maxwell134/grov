@@ -10,3 +10,4 @@ def loadConfig() {
         throw new FileNotFoundException("File not found: pipeline.json")
     }
 }
+return this 
