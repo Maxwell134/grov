@@ -1,6 +1,12 @@
+
 {
-   
-   "jenkinsCredentials": {
-        "id": "dockerhub-credentials"
+  "environments": {
+    "non-prod": {
+      "name": "John Doe Non-Prod"
+    },
+    "prod": {
+      "name": "John Doe Prod"
     }
+  }
 }
+
