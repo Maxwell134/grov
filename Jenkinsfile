@@ -32,38 +32,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Setup') {
+        stage('Read JSON') {
             steps {
                 script {
-                    try {
-                        // Verify if the sample.groovy file exists before loading it
-                        def filePath = 'sample.groovy'
-                        if (!fileExists(filePath)) {
-                            error "File not found: ${filePath}"
-                        }
-                        
-                        // Load the external Groovy script
-                        def configScript = load filePath
-                        
-                        // Verify that the script was loaded successfully
-                        if (configScript == null) {
-                            error "Failed to load ${filePath}"
-                        }
-                        
-                        // Call the function from the external script
-                        def config = configScript.loadConfig()
-                        def environment = config.environment
-                        def version = config.version
-                        
-                        echo "Environment: ${environment}"
-                        echo "Version: ${version}"
-                    } catch (FileNotFoundException e) {
-                        error "Pipeline configuration file not found: ${e.message}"
-                    } catch (Exception e) {
-                        error "An error occurred: ${e.message}"
-                    }
+                    // Read the JSON file
+                    
+                    // Load the Groovy script
+                    def sample = load 'sample.groovy'
+                    
+                    // Call the hello method with the greeting message
+                    sample.loadConfig()
                 }
             }
-        }
+        }       
     }
 }
