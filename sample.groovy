@@ -12,7 +12,7 @@ def getJenkinsCredentials(id) {
     def username = ''
     def password = ''
     
-    withCredentials([usernamePassword(dockerhub-credentials: id, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         username = env.USERNAME
         password = env.PASSWORD
     }
