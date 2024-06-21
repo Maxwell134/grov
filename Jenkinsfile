@@ -28,7 +28,6 @@
 //     }
 // }
 
-
 pipeline {
     agent any
 
@@ -36,19 +35,29 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-                    // Load the external Groovy script
-                    def configScript = load 'sample.groovy'
-                    
-                    // Call the function from the external script
-                    def config = configScript.loadConfig()
-                    def environment = config.environment
-                    def version = config.version
-                    
-                    echo "Environment: ${environment}"
-                    echo "Version: ${version}"
+                    try {
+                        // Load the external Groovy script
+                        def configScript = load 'sample.groovy'
+                        
+                        // Verify that the script was loaded successfully
+                        if (configScript == null) {
+                            error "Failed to load sample.groovy"
+                        }
+                        
+                        // Call the function from the external script
+                        def config = configScript.loadConfig()
+                        def environment = config.environment
+                        def version = config.version
+                        
+                        echo "Environment: ${environment}"
+                        echo "Version: ${version}"
+                    } catch (FileNotFoundException e) {
+                        error "Pipeline configuration file not found: ${e.message}"
+                    } catch (Exception e) {
+                        error "An error occurred: ${e.message}"
+                    }
                 }
             }
         }
     }
 }
-
