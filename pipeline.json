@@ -1,6 +1,6 @@
 {
    
    "jenkinsCredentials": {
-        "id": "jenkins-credential-id"
+        "id": "dockerhub-credentials"
     }
 }
