@@ -5,7 +5,7 @@ def main() {
     def jsonContent = readJSON text: jsonFile
 
     // Extract the variable from JSON
-    def login_credentials = jenkinsCredentials.id
+    def login_credentials = jsonContent.jenkinsCredentials.id
 
     def getJenkinsCredentials(id) {
     withCredentials([usernamePassword(dockerhub-credentials, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
