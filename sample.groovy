@@ -1,11 +1,24 @@
-def message(data) {
-    def name = data.name ?: "World" // Default to "World" if name is not in the JSON
-    def greetMessage = greet(name)
-    println(greetMessage)
+def main() {
+    // Read JSON file
+    def data = readJsonFile('pipeline.json')
+    
+    // Get credentials
+    def username = 'jenkins-username-id'
+    def password = 'jenkins-password-id'
+    
+    // Call the message function
+    message(data.environments['non-prod'])
+    
+    // Docker login
+    def dockerLoginCommand = "docker login -u ${username} -p ${password}"
+    println "Executing: ${dockerLoginCommand}"
+    def process = dockerLoginCommand.execute()
+    process.waitFor()
+    if (process.exitValue() != 0) {
+        println "Docker login failed: ${process.err.text}"
+    } else {
+        println "Docker login successful"
+    }
 }
 
-def greet(name) {
-    return "Hello, $name!"
-}
-
-return this
+main()
